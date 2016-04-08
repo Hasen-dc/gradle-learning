@@ -12,9 +12,19 @@ $ curl -s http://get.sdkman.io | bash
 
 Including all steps for posterity...
 
-From the terminal, I installed the latest version of groovy, using sdkman: sdk install groovy 2.4.5
-In Intellij, right-click on top project > select "Add Framework Support..." > Add groovy 2.4.5 (if it hasn't already been added).
-In Intellij, "Preferences" > "Build, Execution, Deployment" > "Compiler" > "Resource patterns:" > change the order from !?*.java;!?*.groovy to !?*.groovy;!?*.java
+From the terminal, I installed the latest version of groovy, using sdkman:
+
+sdk install groovy 2.4.5
+
+In Intellij, right-click on top project 
+> select "Add Framework Support..." 
+> Add groovy 2.4.5 (if it hasn't already been added).
+
+In Intellij, "Preferences" 
+> "Build, Execution, Deployment" 
+> "Compiler" 
+> "Resource patterns:" 
+> change the order from !?*.java;!?*.groovy to !?*.groovy;!?*.java
 Recompile the project (Command+Shift+F9), it should now compile successfully.
 
 3.创建gradle的新项目。可以选择java或者Groovy来进行开发。
