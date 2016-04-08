@@ -1,1 +1,69 @@
-http://www.cnblogs.com/davenkin/p/gradle-learning-1.html
+博客地址：http://www.cnblogs.com/davenkin/p/gradle-learning-1.html
+
+gradle插件步骤：
+1.下载IDEA。android studio 不支持插件开发
+
+2.需要安装groovy.使用的是sdkman 来安装。网址是：http://sdkman.io/usage.html 。
+
+
+Get started now!
+Go on, paste and run the following in a terminal: 
+$ curl -s http://get.sdkman.io | bash
+
+Including all steps for posterity...
+
+From the terminal, I installed the latest version of groovy, using sdkman: sdk install groovy 2.4.5
+In Intellij, right-click on top project > select "Add Framework Support..." > Add groovy 2.4.5 (if it hasn't already been added).
+In Intellij, "Preferences" > "Build, Execution, Deployment" > "Compiler" > "Resource patterns:" > change the order from !?*.java;!?*.groovy to !?*.groovy;!?*.java
+Recompile the project (Command+Shift+F9), it should now compile successfully.
+
+3.创建gradle的新项目。可以选择java或者Groovy来进行开发。
+
+4.引入gradle相关的jar包
+  build.gradle中添加：
+  
+  apply plugin: 'groovy'
+  apply plugin: 'maven'
+  dependencies {
+    compile gradleApi()
+    testCompile 'junit:junit:4.12'
+  }
+  
+5.创建所需目录：src---main---groovy---[your package]---[your groovy class]
+                        |
+                        | ---resources---[META-INF]---[gradle-plugin]---[hasen.properties]
+                      
+6.创建的groovy类实现Plugin<Project>,完善apply方法。
+hasen.properties 需要指定所写的插件 implementation-class = com.hasen.XXXPlugin
+
+7.在build.gradle中配置打包参数
+  archivesBaseName = 'hasen'
+  uploadArchives {
+      repositories.mavenDeployer {
+          repository(url: 'file:../lib')
+      }
+  }
+  
+8.在执行“gradle uploadArchives”时，Gradle会将该Plugin打包成jar文件，然后将其上传到上级目录下的lib目录中（../lib）。之后，在客户端的build.gradle文件中，我们需要做如下定义：
+
+  buildscript {
+      repositories {
+          maven {
+              url 'file:../lib'
+          } }
+      dependencies {
+          classpath group: 'com.hasen', name: 'hasen',
+                  version: '1.0'
+      }
+  }
+  apply plugin: 'hasen'
+  
+  9.若要上传到仓库
+  
+  如何使用Android Studio把自己的Android library分享到jCenter和Maven Central
+  参见地址：
+  http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0623/3097.html
+  
+  将自己的开源项目提交到JCenter
+  参见地址：
+  http://my.oschina.net/weiCloudS/blog/384865
