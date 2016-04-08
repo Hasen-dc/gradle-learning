@@ -54,7 +54,8 @@ hasen.properties 需要指定所写的插件 implementation-class = com.hasen.XX
       }
   }
   
-8.在执行“gradle uploadArchives”时，Gradle会将该Plugin打包成jar文件，然后将其上传到上级目录下的lib目录中（../lib）。之后，在客户端的build.gradle文件中，我们需要做如下定义：
+8.在执行“gradle uploadArchives”时，Gradle会将该Plugin打包成jar文件，然后将其上传到上级目录下的lib目录中（../lib）。
+之后，在客户端的build.gradle文件中，我们需要做如下定义：
 
   buildscript {
       repositories {
